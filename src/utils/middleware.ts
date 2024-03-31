@@ -1,4 +1,6 @@
-import { ErrorRequestHandler, Response, Request } from 'express';
+import { ErrorRequestHandler, Response, Request, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+import { SECRET } from './config';
 
 export const unknownEndpoint = (_: Request, response: Response) => {
     response.status(404).send({ error: 'unknown endpoint' });
@@ -19,4 +21,28 @@ export const errorHandler: ErrorRequestHandler = (error, _, response, _next) => 
 
     return response.status(467).json({ error: 'I dont know' });
     // next(error);
+};
+
+const getTokenString = (token?: string) => {
+    if (token?.startsWith('Bearer ')) {
+        return token.split(' ')[1];
+    }
+    return null;
+};
+
+export const userExtractor = (req: Request, _: Response, next: NextFunction) => {
+    const {
+        headers: { authorization },
+    } = req;
+
+    const token = getTokenString(authorization);
+    console.log({ token });
+    if (!token) {
+        req.userRequest = null;
+        next();
+        return;
+    }
+
+    req.userRequest = jwt.verify(token, SECRET) as { username: string; id: string };
+    next();
 };

@@ -20,6 +20,10 @@ const storageSchema = new mongoose.Schema({
             ref: 'Transaction',
         },
     ],
+    unit: {
+        type: String,
+        default: 'USD',
+    },
 });
 
 storageSchema.set('toJSON', {
