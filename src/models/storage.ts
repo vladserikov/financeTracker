@@ -30,4 +30,4 @@ storageSchema.set('toJSON', {
     },
 });
 
-module.exports = mongoose.model('Storage', storageSchema);
+export default mongoose.model('Storage', storageSchema);
