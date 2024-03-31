@@ -7,6 +7,7 @@ import userRouter from './routers/user';
 import { errorHandler, userExtractor } from './utils/middleware';
 import loginRouter from './routers/login';
 import storageRouter from './routers/storage';
+import transactionRouter from './routers/transaction';
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.get('/', (_req, res) => {
 app.use('/user', userRouter);
 app.use('/login', loginRouter);
 app.use('/storage', userExtractor, storageRouter);
+app.use('/transaction', userExtractor, transactionRouter);
 
 app.use(errorHandler);
 

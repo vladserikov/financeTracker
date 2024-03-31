@@ -6,6 +6,7 @@ const transactionSchema = new mongoose.Schema(
             type: Number,
             required: true,
             min: 0,
+            default: 0,
         },
         category: String,
         unit: String,
