@@ -36,7 +36,7 @@ export const userExtractor = (req: Request, _: Response, next: NextFunction) => 
     } = req;
 
     const token = getTokenString(authorization);
-    console.log({ token });
+
     if (!token) {
         req.userRequest = null;
         next();

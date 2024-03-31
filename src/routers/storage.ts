@@ -26,12 +26,12 @@ const createStorage = (createObj: CreateStorageObj) => {
 };
 
 storageRouter.get('/', async (req, res) => {
-    const userStorages = await User.findById(req.userRequest?.id).populate('storages');
+    const userStorages = await Storage.find({ userId: req.userRequest?.id }).populate('transactions');
     res.status(200).json(userStorages);
 });
 
 storageRouter.get('/:id', async (req, res) => {
-    const storage = await Storage.findById(req.params.id);
+    const storage = await Storage.findById(req.params.id).populate('transactions');
 
     if (req.userRequest?.id !== storage?.userId?.toString()) {
         return res.status(401).json({ error: 'good bay' });
