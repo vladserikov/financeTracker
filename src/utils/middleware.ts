@@ -20,7 +20,6 @@ export const errorHandler: ErrorRequestHandler = (error, _, response, _next) => 
     }
 
     return response.status(467).json({ error: 'I dont know' });
-    // next(error);
 };
 
 const getTokenString = (token?: string) => {
@@ -46,3 +45,4 @@ export const userExtractor = (req: Request, _: Response, next: NextFunction) => 
     req.userRequest = jwt.verify(token, SECRET) as { username: string; id: string };
     next();
 };
+
