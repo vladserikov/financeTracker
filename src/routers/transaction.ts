@@ -30,17 +30,12 @@ transactionRouter.post('/', async (req: GetRequest, res: Response) => {
         });
     }
 
-    let storage = await Storage.findById(storageId);
+    const storage = await Storage.findById(storageId);
 
     if (!storage) {
-        const newStorage = new Storage({
-            amount: 0,
-            name: 'default',
-            transactions: [],
-            userId: user._id,
+        return res.status(402).json({
+            error: 'create storage',
         });
-
-        storage = await newStorage.save();
     }
 
     const newTransaction = new Transaction({
@@ -60,6 +55,34 @@ transactionRouter.post('/', async (req: GetRequest, res: Response) => {
     await storage.save();
 
     return res.status(201).json(saveTransaction);
+});
+
+transactionRouter.put('/:id', async (req, res) => {
+    const transaction = await Transaction.findById(req.params.id);
+    if (transaction?.userId?.toString() !== req.userRequest?.id) {
+        return res.status(401).end();
+    }
+
+    const { amount, category, unit, date, comment } = req.body;
+
+    const updateTransaction = await Transaction.findByIdAndUpdate(
+        req.params.id,
+        { amount, category, unit, date, comment },
+        { new: true },
+    );
+
+    return res.status(204).json(updateTransaction);
+});
+
+transactionRouter.delete('/:id', async (req, res) => {
+    const transaction = await Transaction.findById(req.params.id);
+    if (transaction?.userId?.toString() !== req.userRequest?.id) {
+        return res.status(401).end();
+    }
+
+    await transaction?.deleteOne();
+
+    return res.status(204).end();
 });
 
 export default transactionRouter;

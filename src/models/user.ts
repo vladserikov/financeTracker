@@ -29,7 +29,7 @@ userSchema.set('toJSON', {
         returnObj.id = returnObj._id.toString();
         delete returnObj._id;
         delete returnObj.__v;
-        // the passwordHash should not be revealed
+
         delete returnObj.passwordHash;
     },
 });

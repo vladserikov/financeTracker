@@ -34,7 +34,7 @@ storageRouter.get('/:id', async (req, res) => {
     const storage = await Storage.findById(req.params.id).populate('transactions');
 
     if (req.userRequest?.id !== storage?.userId?.toString()) {
-        return res.status(401).json({ error: 'good bay' });
+        return res.status(401).json({ error: 'use the right storage' });
     }
 
     return res.status(201).json(storage);
@@ -64,19 +64,14 @@ storageRouter.put('/:id', async (req, res) => {
     const { body } = req;
     const storage = await Storage.findById(req.params.id);
 
-    if (!storage) {
-        return res.status(404).json({ error: 'unknow' });
+    if (!storage || storage.userId?.toString() !== req.userRequest?.id) {
+        return res.status(404).json({ error: 'unknown id' });
     }
 
-    if (storage.userId?.toString() !== req.userRequest?.id) {
-        return res.status(401).json({ error: 'you cant change' });
-    }
-
-    const { amount, name, unit } = body;
     const newStorage = {
-        amount: amount || storage.amount,
-        name: name || storage.name,
-        unit: unit || storage.unit,
+        amount: body.amount || storage.amount,
+        name: body.name || storage.name,
+        unit: body.unit || storage.unit,
     };
 
     const updateStorage = await Storage.findByIdAndUpdate(storage.id, newStorage, { new: true });
@@ -87,12 +82,8 @@ storageRouter.put('/:id', async (req, res) => {
 storageRouter.delete('/:id', async (req, res) => {
     const storage = await Storage.findById(req.params.id);
 
-    if (!storage) {
-        return res.status(404).json({ error: 'unknow' });
-    }
-    // console.log({ storage, id: req.userRequest?.id });
-    if (storage.userId?.toString() !== req.userRequest?.id) {
-        return res.status(401).json({ error: 'you cant change' });
+    if (!storage || storage.userId?.toString() !== req.userRequest?.id) {
+        return res.status(404).json({ error: 'unknown id' });
     }
 
     await Storage.findByIdAndDelete(req.params.id);
