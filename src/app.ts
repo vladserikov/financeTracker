@@ -8,6 +8,8 @@ import { errorHandler, userExtractor } from './utils/middleware';
 import loginRouter from './routers/login';
 import storageRouter from './routers/storage';
 import transactionRouter from './routers/transaction';
+import cors from 'cors';
+import { requestLogger } from './utils/logger';
 
 const app = express();
 
@@ -32,17 +34,18 @@ mongoose
         console.log(err);
     });
 
+app.use(cors());
 app.use(express.json());
 
-app.get('/', (_req, res) => {
-    res.send(`<h1>Hello</h1>`);
-});
+app.use(requestLogger);
 
-app.use('/user', userRouter);
-app.use('/login', loginRouter);
-app.use('/storage', userExtractor, storageRouter);
-app.use('/transaction', userExtractor, transactionRouter);
+app.use(express.static('dist'));
+app.use('/api/user', userRouter);
+app.use('/api/login', loginRouter);
+app.use('/api/storage', userExtractor, storageRouter);
+app.use('/api/transaction', userExtractor, transactionRouter);
 
 app.use(errorHandler);
 
 export default app;
+

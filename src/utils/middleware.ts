@@ -39,6 +39,7 @@ export const userExtractor = (req: Request, _: Response, next: NextFunction) => 
     if (!token) {
         req.userRequest = null;
         next();
+        console.log('no token');
         return;
     }
 
