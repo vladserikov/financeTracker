@@ -29,7 +29,7 @@ const getTokenString = (token?: string) => {
     return null;
 };
 
-export const userExtractor = (req: Request, _: Response, next: NextFunction) => {
+export const userExtractor = (req: Request, res: Response, next: NextFunction) => {
     const {
         headers: { authorization },
     } = req;
@@ -38,9 +38,9 @@ export const userExtractor = (req: Request, _: Response, next: NextFunction) => 
 
     if (!token) {
         req.userRequest = null;
-        next();
         console.log('no token');
-        return;
+
+        return res.redirect('/');
     }
 
     req.userRequest = jwt.verify(token, SECRET) as { username: string; id: string };

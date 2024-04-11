@@ -34,7 +34,7 @@ transactionRouter.post('/', async (req: GetRequest, res: Response) => {
 
     if (!storage) {
         return res.status(402).json({
-            error: 'create storage',
+            error: 'Select storage',
         });
     }
 
@@ -52,6 +52,12 @@ transactionRouter.post('/', async (req: GetRequest, res: Response) => {
     const saveTransaction = await newTransaction.save();
 
     storage.transactions = storage.transactions.concat(saveTransaction._id);
+    if (!storage.amount) {
+        storage.amount = amount;
+    } else {
+        storage.amount += amount;
+    }
+
     await storage.save();
 
     return res.status(201).json(saveTransaction);
@@ -86,3 +92,4 @@ transactionRouter.delete('/:id', async (req, res) => {
 });
 
 export default transactionRouter;
+

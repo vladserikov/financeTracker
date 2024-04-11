@@ -18,8 +18,8 @@ const testUsers = [
     },
 ];
 
-const urlUser = '/user';
-const urlLogin = '/login';
+const urlUser = '/api/user';
+const urlLogin = '/api/login';
 
 beforeEach(async () => {
     await User.deleteMany({});
