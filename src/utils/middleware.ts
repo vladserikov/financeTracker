@@ -40,7 +40,7 @@ export const userExtractor = (req: Request, res: Response, next: NextFunction) =
         req.userRequest = null;
         console.log('no token');
 
-        return res.redirect('/');
+        return res.status(401).json({ error: 'login please' }).redirect('/');
     }
 
     req.userRequest = jwt.verify(token, SECRET) as { username: string; id: string };

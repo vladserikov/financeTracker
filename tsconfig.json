@@ -112,5 +112,6 @@
       "moduleResolution": "Node",
       "module": "CommonJS"
     }
-  }
+  },
+  "exclude": ["tests"]
 }

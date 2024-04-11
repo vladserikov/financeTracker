@@ -2,12 +2,13 @@
     "name": "budget-backend",
     "version": "1.0.0",
     "description": "",
-    "main": "src/index.ts",
+    "main": "build/src/index.js",
     "scripts": {
         "dev": "cross-env NODE_ENV=development nodemon",
-        "build": "cross-env NODE_ENV=production rm -r build && tsc",
+        "build": "cross-env NODE_ENV=production tsc",
         "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
-        "build-front": "rm -r dist && cd ../budget-app-react && yarn build && cp -r ../budget-app-react"
+        "build-front": "rm -r dist && cd ../budget-app-react && yarn build && cp -r ../budget-app-react",
+        "start": "node build/src/index.js"
     },
     "author": "",
     "license": "ISC",
@@ -21,6 +22,7 @@
         "mongoose": "^8.2.4"
     },
     "devDependencies": {
+        "@flydotio/dockerfile": "^0.5.4",
         "@types/bcrypt": "^5.0.2",
         "@types/cors": "^2.8.17",
         "@types/express": "^4.17.21",
