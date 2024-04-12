@@ -2,13 +2,14 @@
     "name": "budget-backend",
     "version": "1.0.0",
     "description": "",
-    "main": "build/src/index.js",
+    "main": "build/index.js",
     "scripts": {
         "dev": "cross-env NODE_ENV=development nodemon",
         "build": "cross-env NODE_ENV=production tsc",
         "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
         "build-front": "rm -r dist && cd ../budget-app-react && yarn build && cp -r ../budget-app-react",
-        "start": "node build/src/index.js"
+        "start": "node build/index.js",
+        "docker:run": "docker run -it -p 3001:3000 --env-file .env --rm node-app"
     },
     "author": "",
     "license": "ISC",
@@ -19,7 +20,9 @@
         "express": "^4.19.2",
         "express-async-errors": "^3.1.1",
         "jsonwebtoken": "^9.0.2",
-        "mongoose": "^8.2.4"
+        "mongoose": "^8.2.4",
+        "tslib": "^2.6.2",
+        "cross-env": "^7.0.3"
     },
     "devDependencies": {
         "@flydotio/dockerfile": "^0.5.4",
@@ -30,13 +33,11 @@
         "@types/jsonwebtoken": "^9.0.6",
         "@types/node": "^20.11.30",
         "@types/supertest": "^6.0.2",
-        "cross-env": "^7.0.3",
         "jest": "^29.7.0",
         "nodemon": "^3.1.0",
         "supertest": "^6.3.4",
         "ts-jest": "^29.1.2",
         "ts-node": "^10.9.2",
-        "tslib": "^2.6.2",
         "typescript": "^5.4.3"
     }
 }
