@@ -39,7 +39,7 @@ app.use(express.json());
 
 app.use(requestLogger);
 
-// app.use(express.static('dist'));
+app.use(express.static('dist'));
 app.use('/api/user', userRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/storage', userExtractor, storageRouter);

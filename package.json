@@ -7,9 +7,10 @@
         "dev": "cross-env NODE_ENV=development nodemon",
         "build": "cross-env NODE_ENV=production tsc",
         "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
-        "build-front": "rm -r dist && cd ../budget-app-react && yarn build && cp -r ../budget-app-react",
+        "build-front": "cd ../budget-app-react && yarn build && cp -r ../budget-app-react/dist ../budget-backend",
         "start": "node build/index.js",
-        "docker:run": "docker run -it -p 3001:3000 --env-file .env --rm node-app"
+        "docker:run": "docker run -it -p 3001:3000 --env-file .env --rm node-app",
+        "full-build": "yarn build-front && yarn build"
     },
     "author": "",
     "license": "ISC",
