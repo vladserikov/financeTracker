@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import { Router } from 'express';
 import User from '../models/user';
-import Storage from '../models/storage';
+import Wallet from '../models/wallet';
 
 const userRouter = Router();
 
@@ -20,18 +20,19 @@ userRouter.post('/', async (req, res) => {
 
     const savedUser = await newUser.save();
 
-    const newStorage = new Storage({
+    const newWallet = new Wallet({
         amount: 0,
         name: 'Main',
         userId: savedUser._id,
     });
 
-    const savedStorage = await newStorage.save();
+    const savedWallet = await newWallet.save();
 
-    savedUser.storages = savedUser.storages.concat(savedStorage._id);
+    savedUser.wallets = savedUser.wallets.concat(savedWallet._id);
     await savedUser.save();
 
     res.status(201).json(savedUser);
 });
 
 export default userRouter;
+

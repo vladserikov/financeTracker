@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import User from '../models/user';
-import Storage from '../models/storage';
+import Wallet from '../models/wallet';
 import Transaction from '../models/transaction';
 
 const transactionRouter = Router();
@@ -12,7 +12,7 @@ type Transaction = {
     unit: string;
     date?: Date;
     comment?: string;
-    storageId?: string;
+    walletId?: string;
 };
 
 type GetRequest = Omit<Request, 'body'> & { body: Transaction };
@@ -20,7 +20,7 @@ type GetRequest = Omit<Request, 'body'> & { body: Transaction };
 transactionRouter.post('/', async (req: GetRequest, res: Response) => {
     const { body, userRequest } = req;
 
-    const { storageId, amount = 0, category, transactionType, unit = 'USD', comment, date = new Date() } = body;
+    const { walletId, amount = 0, category, transactionType, unit = 'USD', comment, date = new Date() } = body;
 
     const user = await User.findById(userRequest?.id);
 
@@ -30,11 +30,11 @@ transactionRouter.post('/', async (req: GetRequest, res: Response) => {
         });
     }
 
-    const storage = await Storage.findById(storageId);
+    const wallet = await Wallet.findById(walletId);
 
-    if (!storage) {
+    if (!wallet) {
         return res.status(402).json({
-            error: 'Select storage',
+            error: 'Select wallet',
         });
     }
 
@@ -46,19 +46,19 @@ transactionRouter.post('/', async (req: GetRequest, res: Response) => {
         unit,
         transactionType,
         userId: user._id,
-        storage: storage._id,
+        wallet: wallet._id,
     });
 
     const saveTransaction = await newTransaction.save();
 
-    storage.transactions = storage.transactions.concat(saveTransaction._id);
-    if (!storage.amount) {
-        storage.amount = amount;
+    wallet.transactions = wallet.transactions.concat(saveTransaction._id);
+    if (!wallet.amount) {
+        wallet.amount = amount;
     } else {
-        storage.amount += amount;
+        wallet.amount += amount;
     }
 
-    await storage.save();
+    await wallet.save();
 
     return res.status(201).json(saveTransaction);
 });

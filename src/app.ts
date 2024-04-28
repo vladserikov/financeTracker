@@ -6,7 +6,7 @@ import { MONGO_URI } from './utils/config';
 import userRouter from './routers/user';
 import { errorHandler, userExtractor } from './utils/middleware';
 import loginRouter from './routers/login';
-import storageRouter from './routers/storage';
+import walletRouter from './routers/wallet';
 import transactionRouter from './routers/transaction';
 import cors from 'cors';
 import { requestLogger } from './utils/logger';
@@ -24,15 +24,20 @@ declare global {
     }
 }
 
-mongoose.set('strictQuery', false);
-mongoose
-    .connect(MONGO_URI)
-    .then((_result) => {
-        console.log('good connection');
-    })
-    .catch((err) => {
-        console.log(err);
-    });
+const connectDB = async () => {
+    mongoose.set('strictQuery', false);
+    try {
+        await mongoose.connect(MONGO_URI);
+        console.log('Connect DB');
+    } catch (error) {
+        console.log(error.code);
+        if (error.code === 'ESERVFAIL') {
+            setTimeout(connectDB, 5000);
+        }
+    }
+};
+
+connectDB();
 
 app.use(cors());
 app.use(express.json());
@@ -42,7 +47,7 @@ app.use(requestLogger);
 app.use(express.static('dist'));
 app.use('/api/user', userRouter);
 app.use('/api/login', loginRouter);
-app.use('/api/storage', userExtractor, storageRouter);
+app.use('/api/wallet', userExtractor, walletRouter);
 app.use('/api/transaction', userExtractor, transactionRouter);
 
 app.use(errorHandler);

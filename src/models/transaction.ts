@@ -16,9 +16,9 @@ const transactionSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
         },
-        storage: {
+        wallet: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Storage',
+            ref: 'Wallet',
         },
         transactionType: {
             type: String,
@@ -38,3 +38,4 @@ transactionSchema.set('toJSON', {
 });
 
 export default mongoose.model('Transaction', transactionSchema);
+

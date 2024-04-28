@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const storageSchema = new mongoose.Schema({
+const walletSchema = new mongoose.Schema({
     name: {
         type: String,
         require: true,
@@ -26,7 +26,7 @@ const storageSchema = new mongoose.Schema({
     },
 });
 
-storageSchema.set('toJSON', {
+walletSchema.set('toJSON', {
     transform: (_, returnObj) => {
         returnObj.id = returnObj._id.toString();
         delete returnObj._id;
@@ -34,4 +34,5 @@ storageSchema.set('toJSON', {
     },
 });
 
-export default mongoose.model('Storage', storageSchema);
+export default mongoose.model('Wallet', walletSchema);
+

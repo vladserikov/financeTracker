@@ -16,10 +16,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         require: true,
     },
-    storages: [
+    wallets: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Storage',
+            ref: 'Wallet',
         },
     ],
 });
@@ -35,3 +35,4 @@ userSchema.set('toJSON', {
 });
 
 export default mongoose.model('User', userSchema);
+
