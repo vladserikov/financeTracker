@@ -110,7 +110,10 @@
     "compilerOptions": {
       "esModuleInterop": true,
       "moduleResolution": "Node",
-      "module": "CommonJS"
+      "module": "CommonJS",
+      "baseUrl": "/src",
+      "importHelpers": true,
+      "outDir": "./build"
     }
   },
   "exclude": ["tests"]

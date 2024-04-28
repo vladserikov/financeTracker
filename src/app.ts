@@ -30,10 +30,7 @@ const connectDB = async () => {
         await mongoose.connect(MONGO_URI);
         console.log('Connect DB');
     } catch (error) {
-        console.log(error.code);
-        if (error.code === 'ESERVFAIL') {
-            setTimeout(connectDB, 5000);
-        }
+        console.log(error);
     }
 };
 
