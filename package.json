@@ -5,7 +5,7 @@
     "main": "build/index.js",
     "scripts": {
         "dev": "cross-env NODE_ENV=development nodemon src/index.ts",
-        "build": "cross-env NODE_ENV=production tsc",
+        "build": "cross-env NODE_ENV=production tsc && cp -r dist build",
         "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
         "build-front": "cd ../budget-app-react && yarn build && cp -r ../budget-app-react/dist ../budget-backend",
         "start": "node build/index.js",
