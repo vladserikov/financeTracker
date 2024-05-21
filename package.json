@@ -1,6 +1,6 @@
 {
     "name": "budget-backend",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "",
     "main": "build/index.js",
     "scripts": {
@@ -53,4 +53,3 @@
         "typescript": "^5.4.5"
     }
 }
-

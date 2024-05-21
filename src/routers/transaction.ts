@@ -69,15 +69,15 @@ transactionRouter.put('/:id', async (req, res) => {
         return res.status(401).end();
     }
 
-    const { amount, category, unit, date, comment } = req.body;
+    const { amount, category, date, comment } = req.body;
 
     const updateTransaction = await Transaction.findByIdAndUpdate(
         req.params.id,
-        { amount, category, unit, date, comment },
+        { amount, category, date, comment },
         { new: true },
     );
-
-    return res.status(204).json(updateTransaction);
+    console.log(updateTransaction);
+    return res.status(201).json(updateTransaction);
 });
 
 transactionRouter.delete('/:id', async (req, res) => {
